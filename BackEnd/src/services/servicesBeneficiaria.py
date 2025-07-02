@@ -5,6 +5,18 @@ import io
 from datetime import datetime
 import MySQLdb
 
+# Cambiar el estado de una beneficiaria
+def cambiar_estado_beneficiaria(id_beneficiaria):
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute('CALL cambiar_estado_beneficiaria(%s)', (id_beneficiaria,))
+        mysql.connection.commit()
+        return jsonify({'success': True, 'message': 'Estado de beneficiaria actualizado correctamente'}), 200
+    except MySQLdb.Error as e:
+        return jsonify({'success': False, 'message': str(e)}), 400
+    finally:
+        cursor.close()
+
 # Retornar la lista de las beneficiarias
 def get_beneficiarias():
     cursor = mysql.connection.cursor()

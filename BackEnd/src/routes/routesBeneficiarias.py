@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from src.services.servicesBeneficiaria import get_beneficiarias, registrar_beneficiaria, actualizar_beneficiaria, reporte_beneficiarias, get_beneficiaria_por_id
+from src.services.servicesBeneficiaria import get_beneficiarias, registrar_beneficiaria, actualizar_beneficiaria, reporte_beneficiarias, get_beneficiaria_por_id, cambiar_estado_beneficiaria
 
 beneficiarias = Blueprint('beneficiarias', __name__)
 
@@ -27,3 +27,8 @@ def actualizar_datos():
 @beneficiarias.route('/reporte/beneficiarias', methods=['GET'])
 def reporte_pdf():
     return reporte_beneficiarias()
+
+# Ruta para cambiar el estado de una beneficiaria
+@beneficiarias.route('/cambiar-estado/<int:id_beneficiaria>', methods=['PUT'])
+def cambiar_estado(id_beneficiaria):
+    return cambiar_estado_beneficiaria(id_beneficiaria)

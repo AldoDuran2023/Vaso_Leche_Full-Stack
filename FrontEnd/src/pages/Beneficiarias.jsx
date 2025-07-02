@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import React from "react";
 import DataTable from "react-data-table-component";
 import { useNavigate } from 'react-router-dom';
@@ -32,6 +32,38 @@ export default function Beneficiarias() {
 
     useEffect(() => {
         fetchAllData();
+    }, []);
+
+    // Cambiar estado con confirmación
+    const cambiarEstado = useCallback(async (id_beneficiaria) => {
+        const result = await Swal.fire({
+            title: '¿Cambiar estado?',
+            text: '¿Estás seguro de cambiar el estado de esta beneficiaria?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, cambiar',
+            cancelButtonText: 'Cancelar'
+        });
+
+        if (result.isConfirmed) {
+            try {
+                const response = await fetch(`http://localhost:5000/api/beneficiarias/cambiar-estado/${id_beneficiaria}`, {
+                    method: 'PUT'
+                });
+                const data = await response.json();
+                if (data.success) {
+                    Swal.fire('¡Actualizado!', 'El estado ha sido cambiado.', 'success');
+                    fetchAllData(); // Refresca la tabla
+                } else {
+                    Swal.fire('Error', data.message || 'No se pudo cambiar el estado.', 'error');
+                }
+            } catch (error) {
+                Swal.fire('Error', 'Ocurrió un error en la petición.', 'error');
+                print(error)
+            }
+        }
     }, []);
 
     // Función para filtrar datos por nombre, dni o dirección
@@ -198,10 +230,12 @@ export default function Beneficiarias() {
             name: "Estado",
             cell: row => (
                 <span
-                    className={`px-3 py-1 rounded-full text-xs font-semibold ${row.estado === true || row.estado === 1
+                    className={`px-3 py-1 rounded-full text-xs font-semibold cursor-pointer ${row.estado === true || row.estado === 1
                         ? "bg-green-100 text-green-700"
                         : "bg-red-100 text-red-700"
                         }`}
+                    onClick={() => cambiarEstado(row.id_beneficiaria)}
+                    title="Haz clic para cambiar el estado"
                 >
                     {row.estado === true || row.estado === 1 ? "Activo" : "Inactivo"}
                 </span>
