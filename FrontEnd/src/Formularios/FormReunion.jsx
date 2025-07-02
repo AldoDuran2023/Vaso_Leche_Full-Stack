@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2'
-
+import { useNavigate } from "react-router-dom";
 export default function FormReunion() {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const [juntas, setJuntas] = useState([]);
     const [loading, setLoading] = useState(true);
     const usuario = JSON.parse(localStorage.getItem("usuario"));
     const juntaUsuario = usuario?.fk_junta;
+    const navigate = useNavigate();
 
     // Cargar datos para los selects
     useEffect(() => {
@@ -62,7 +63,7 @@ export default function FormReunion() {
                     text: result.message,
                     icon: "success"
                 });
-                window.history.back();
+                navigate('/reuniones');
             } else {
                 await Swal.fire({
                     title: "Error al generar la reunión",
@@ -210,7 +211,7 @@ export default function FormReunion() {
                         <div className="flex gap-4 pt-6">
                             <button
                                 type="button"
-                                onClick={() => window.history.back()}
+                                onClick={() => navigate('/reuniones')}
                                 className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-4 px-6 rounded-lg transition-all duration-200 border-2 border-gray-300 hover:border-gray-400"
                             >
                                 Cancelar

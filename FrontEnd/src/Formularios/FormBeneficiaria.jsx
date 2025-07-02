@@ -231,7 +231,7 @@ export default function FormBeneficiaria() {
                         <div className="flex gap-4 pt-6">
                             <button
                                 type="button"
-                                onClick={() => window.history.back()}
+                                onClick={() => navigate("/beneficiarias")}
                                 className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-4 px-6 rounded-lg transition-all duration-200 border-2 border-gray-300 hover:border-gray-400"
                             >
                                 Cancelar

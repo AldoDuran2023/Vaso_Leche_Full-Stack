@@ -9,7 +9,7 @@ const FormularioUsuario = () => {
     const token = localStorage.getItem("token");
     const navigate = useNavigate();
     const [representantes, setRepresentantes] = useState([]);
-    const { register, handleSubmit, setValue, reset, watch, formState: { errors } } = useForm();
+    const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
 
     // Observar si se está ingresando una nueva contraseña
     const newPassword = watch("new_password");

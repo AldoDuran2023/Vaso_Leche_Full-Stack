@@ -82,7 +82,7 @@ export default function FormularioAsistencia() {
                 text: "Asistencia registrada y reunión finalizada.",
                 icon: "success"
             });
-            window.history.back();
+            navigate("/reuniones");
 
         } catch (error) {
             await Swal.fire({

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2';
+import { useNavigate } from "react-router-dom";
 
 export default function FormRepresentante() {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -8,6 +9,7 @@ export default function FormRepresentante() {
     const [juntas, setJuntas] = useState([]);
     const [beneficiarias, setBeneficiarias] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const cargarDatos = async () => {
@@ -74,7 +76,7 @@ export default function FormRepresentante() {
                     icon: "success",
                     confirmButtonText: "Aceptar"
                 });
-                window.history.back();
+                navigate('/representantes');
             } else {
                 await Swal.fire({
                     title: "Error",
@@ -194,7 +196,7 @@ export default function FormRepresentante() {
                         <div className="flex gap-4 pt-6">
                             <button
                                 type="button"
-                                onClick={() => window.history.back()}
+                                onClick={() => navigate('/representantes')}
                                 className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-4 px-6 rounded-lg transition-all duration-200 border-2 border-gray-300 hover:border-gray-400"
                             >
                                 cancelar

@@ -1,11 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 
 export default function FormHijo() {
   const { dni_madre } = useParams();
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
@@ -28,7 +29,7 @@ export default function FormHijo() {
           icon: "success",
           confirmButtonText: "Aceptar"
         });
-        window.history.back();
+        navigate("/beneficiarias");
       } else {
         await Swal.fire({
           title: "Error",

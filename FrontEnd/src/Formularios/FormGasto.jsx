@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 
 export default function FormGasto() {
@@ -8,6 +9,7 @@ export default function FormGasto() {
     const [loading, setLoading] = useState(true);
     const usuario = JSON.parse(localStorage.getItem("usuario"));
     const fk_representante = usuario?.fk_representante;
+    const navigate = useNavigate();
 
     useEffect(() => {
         const cargarDatos = async () => {
@@ -68,7 +70,7 @@ export default function FormGasto() {
                     icon: "success",
                     confirmButtonText: "Aceptar"
                 });
-                window.history.back();
+                navigate("/gastos");
             } else {
                 await Swal.fire({
                     title: "Error al registrar el gasto",

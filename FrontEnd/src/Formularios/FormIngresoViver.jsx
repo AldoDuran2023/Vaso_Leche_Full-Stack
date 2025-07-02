@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { ShoppingBag } from 'lucide-react';
 import Swal from 'sweetalert2';
+import { useNavigate } from "react-router-dom";
 
 export default function FormIngresoUnico() {
-    const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm();
+    const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm();
     const [viveres, setViveres] = useState([]);
     const [detallesViveres, setDetallesViveres] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     const usuario = JSON.parse(localStorage.getItem("usuario"));
     const juntaUsuario = usuario?.fk_junta;
@@ -110,7 +112,7 @@ export default function FormIngresoUnico() {
                 text: "Ingreso y detalles registrados con éxito.",
                 icon: "success"
             });
-            window.history.back();
+            navigate("/ingresos_viveres");
         } catch (err) {
             await Swal.fire({
                 title: "Error al registrar los ingresos",

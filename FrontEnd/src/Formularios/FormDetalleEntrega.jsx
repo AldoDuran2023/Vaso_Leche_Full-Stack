@@ -49,7 +49,8 @@ export default function FormularioEntrega() {
         const volver = sessionStorage.getItem("volver_a_entrega");
         if (volver === window.location.pathname) {
             sessionStorage.removeItem("volver_a_entrega");
-            fetchDetalles(); // recargar data por si pagó
+            navigate(window.location.pathname, { replace: true });
+            fetchDetalles();
         }
     }, [id, navigate]);
 
@@ -223,7 +224,7 @@ export default function FormularioEntrega() {
 
                                     if (result.isConfirmed) {
                                         sessionStorage.setItem("volver_a_entrega", window.location.pathname);
-                                        window.location.href = `/tesoreria/pagar/${row.id_beneficiaria}`;
+                                        navigate(`/tesoreria/pagar/${row.id_beneficiaria}`);
                                     }
                                 } else {
                                     marcarEntregado(row.id_detalle);

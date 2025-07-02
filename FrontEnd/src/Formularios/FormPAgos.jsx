@@ -8,7 +8,7 @@ export default function FormPagoMultas() {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm();
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
 
     const [beneficiaria, setBeneficiaria] = useState(null);
     const [representantes, setRepresentantes] = useState([]);
@@ -115,7 +115,7 @@ export default function FormPagoMultas() {
                     icon: "success",
                     confirmButtonText: "Aceptar"
                 });
-                window.history.back();
+                navigate('/pagos');
             } else {
                 await Swal.fire({
                     title: "Error",
