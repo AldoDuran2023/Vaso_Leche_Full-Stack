@@ -129,7 +129,7 @@ export default function FormularioEntrega() {
                     icon: "success"
                 });
                 setFinalizado(true);
-                window.history.back();
+                navigate("/entregas", { state: { recargar: true } });
             } else {
                 await Swal.fire({
                     title: "Error al finalizar",

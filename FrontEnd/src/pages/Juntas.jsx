@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import DataTable from "react-data-table-component";
+import Swal from 'sweetalert2';
 
 export default function Juntas() {
     const [data, setData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
     const [pending, setPending] = useState(true);
     const [searchText, setSearchText] = useState("");
+
+    // solo se puede insertar la junta en el mes de diciembre
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
     const fetchAllData = async () => {
         try {
@@ -28,6 +32,14 @@ export default function Juntas() {
 
     useEffect(() => {
         fetchAllData();
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth();
+
+        if (currentMonth === 11) {
+            setIsButtonDisabled(false);
+        } else {
+            setIsButtonDisabled(true);
+        }
     }, []);
 
     // Función para filtrar datos por nombre, dni
@@ -119,12 +131,25 @@ export default function Juntas() {
                     value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
                 />
-
                 <button
                     className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-xl shadow-lg
-                        transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl
-                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75"
-                    onClick={() => window.location.href = '/juntas/nuevo'}
+                    transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl
+                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        if (isButtonDisabled) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Acción no permitida',
+                                text: 'Solo se puede crear una nueva Junta Directiva en el mes de diciembre.',
+                                confirmButtonText: 'Entendido',
+                                confirmButtonColor: '#2563eb'
+                            });
+                        } else {
+                            window.location.href = '/juntas/nuevo';
+                        }
+                    }}
+                    title={isButtonDisabled ? 'Solo se puede crear una nueva Junta Directiva en diciembre.' : ''}
                 >
                     Nueva Junta Directiva
                 </button>

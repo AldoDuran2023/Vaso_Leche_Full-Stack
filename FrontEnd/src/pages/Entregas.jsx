@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import React from "react";
 import DataTable from "react-data-table-component";
 import Swal from 'sweetalert2'
+import { useLocation } from "react-router-dom";
+
 
 export default function Entregas() {
     const [data, setData] = useState([]);
@@ -10,6 +12,7 @@ export default function Entregas() {
     const [searchText, setSearchText] = useState("");
     const usuario = JSON.parse(localStorage.getItem("usuario"));
     const fk_representante = usuario?.fk_junta;
+    const location = useLocation();
 
     const fetchAllData = async () => {
         try {
@@ -31,7 +34,7 @@ export default function Entregas() {
 
     useEffect(() => {
         fetchAllData();
-    }, []);
+    }, [location.state?.recargar]);
 
     // Función para traer los detalles:
     const fetchDetalleEntrega = async (id_entrega) => {
